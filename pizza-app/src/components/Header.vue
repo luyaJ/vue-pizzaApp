@@ -13,11 +13,17 @@
       <el-menu-item index="/about">
         <router-link to="/about">关于我们</router-link>
       </el-menu-item>
-      <el-menu-item index="/login">
+      <el-menu-item index="/login" v-show="!isLogin">
         <router-link to="/login">登录</router-link>
       </el-menu-item>
-      <el-menu-item index="/register">
+      <el-menu-item v-show="isLogin">
+        {{currentUser}}
+      </el-menu-item>
+      <el-menu-item index="/register" v-show="!isLogin">
         <router-link to="/register">注册</router-link>
+      </el-menu-item>
+      <el-menu-item v-show="isLogin">
+        <router-link to="/login">退出</router-link>
       </el-menu-item>
     </el-menu>
   </div>
@@ -25,7 +31,14 @@
 
 <script>
 export default {
-
+  computed: {
+    currentUser() {
+      return this.$store.getters.currentUser
+    },
+    isLogin() {
+      return this.$store.getters.isLogin
+    }
+  }
 }
 </script>
 

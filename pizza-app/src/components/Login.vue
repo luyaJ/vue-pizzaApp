@@ -10,7 +10,7 @@
             <el-input v-model="ruleForm.name"></el-input>
           </el-form-item>
           <el-form-item label="密码" prop="password">
-            <el-input v-model="ruleForm.password"></el-input>
+            <el-input type="password" v-model="ruleForm.password"></el-input>
           </el-form-item>
           <el-form-item>
             <el-button type="primary" @click="onSubmit">登录</el-button>
@@ -42,6 +42,10 @@ export default {
       }
     }
   },
+  // 组件内的守卫
+  beforeRouteEnter: (to, from, next) => {
+    next(vm => vm.$store.dispatch("setUser", null))
+  },
   methods: {
     onSubmit() {
       axios.get('/users.json')
@@ -62,9 +66,11 @@ export default {
             // console.log(result);
             // 判断result的长度是否大于0
             if (result != null && result.length > 0) {
+              this.$store.dispatch("setUser", result[0].name)
               this.$router.push('/home');
             } else {
               alert('账号或密码错误');
+              this.$store.dispatch("setUser", null)
             }
           })
     }

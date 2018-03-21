@@ -4,6 +4,7 @@ import 'element-ui/lib/theme-chalk/index.css'
 import App from './App.vue'
 import { routes } from './routes.js'
 import axios from 'axios'
+import { store } from './store/store.js'
 import {
   Menu,
   MenuItem,
@@ -37,6 +38,9 @@ Vue.use(Header);
 Vue.use(VueRouter);
 axios.defaults.baseURL = 'https://wd6086063450enyxno.wilddogio.com/'
 
+// 配置vue原型 (在任何组建中都可以正常使用axios)
+Vue.prototype.http = axios
+
 // 全局守卫
 // router.beforeEach((to, from, next) => {
 //   // 判断store.gettes.isLogin === false
@@ -64,5 +68,6 @@ const router = new VueRouter({
 new Vue({
   el: '#app',
   render: h => h(App),
-  router
+  router,
+  store
 })
